@@ -1,17 +1,17 @@
-import random
 import unittest
+from hypothesis import given
+import hypothesis.strategies as st
 
 from algo.sorting.bubble_sort import sort
 
 
 class BubbleSortTest(unittest.TestCase):
 
-    def test_correctness_against_python_impl(self):
-        for i in range(2, 200):
-            items = [random.randint(-i, i) for _ in range(i)]
-            custom = sort(items)
-            items.sort()
-            self.assertEqual(items, custom)
+    @given(st.lists(st.integers(), min_size=1, max_size=500))
+    def test_correctness_against_python_impl(self, x):
+        custom = sort(x)
+        x.sort()
+        self.assertEqual(x, custom)
 
 
 if __name__ == '__main__':
