@@ -1,22 +1,25 @@
+from typing import Any, Callable, List
+
+
 class BinaryHeap:
     """Implementation of a binary heap in Python 3."""
 
-    def __init__(self, comparator=lambda x, y: x >= y):
+    def __init__(self, comparator: Callable=lambda x, y: x >= y) -> None:
         """
         By default the binary heap behaves as a MaxHeap.
 
         By providing a custom comparator function it is possible
         to apply a different order criteria.
         """
-        self._array = []
-        self._comparator = comparator
+        self._array = []  # type: List[Any]
+        self._comparator = comparator  # type: Callable
 
-    def push(self, item):
+    def push(self, item: Any) -> None:
         """Adds an element to the heap."""
         self._array.append(item)
         self._swim()
 
-    def pop(self):
+    def pop(self) -> Any:
         """Returns the first element of the heap, and removes it from the collection."""
 
         # The value to return.
@@ -33,11 +36,11 @@ class BinaryHeap:
 
         return item
 
-    def peek(self):
+    def peek(self) -> Any:
         """Returns the first element of the heap, leaving it in place."""
         return self._array[0]
 
-    def _swim(self):
+    def _swim(self) -> None:
         """Swaps the element at given position with its parent node recursively,
         until the heap total order is restored."""
         item_index = len(self._array) - 1
@@ -49,7 +52,7 @@ class BinaryHeap:
             item_index = parent_index
             parent_index = self._parent_index(item_index)
 
-    def _sink(self, index):
+    def _sink(self, index: int) -> None:
         """Swaps the element at given position with its child nodes recursively,
         until the heap total order is restored."""
 
@@ -72,12 +75,12 @@ class BinaryHeap:
             index = child_index
 
     @staticmethod
-    def _parent_index(index):
+    def _parent_index(index: int) -> int:
         return ((index + 1) // 2) - 1
 
     @staticmethod
-    def _child_index(index):
+    def _child_index(index: int) -> int:
         return ((index + 1) * 2) - 1
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "%s" % self._array

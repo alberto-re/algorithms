@@ -1,7 +1,7 @@
 import sys
 
 
-def sort(items):
+def sort(items: list) -> list:
     for m in range(0, len(items) - 1):
         for n in range(len(items) - 1, m, -1):
             if items[n] < items[n-1]:
@@ -9,7 +9,7 @@ def sort(items):
     return items
 
 
-def main():
+def main() -> None:
     items = [int(x) for x in sys.stdin.readline().split()]
     sort(items)
     print(" ".join(map(str, items)))

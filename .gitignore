@@ -1,5 +1,7 @@
 __pycache__
+.mypy_cache
 *.class
 .idea
 .build-docker-machine
 *.exe
+.hypothesis
