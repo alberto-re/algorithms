@@ -1,18 +1,18 @@
 from tkinter import Canvas
 from typing import List, Dict
-from queue import Queue
+from visualize.observable.recorder import Recorder
 
 COLORS = {
     "base": "#576042",
-    "swap": "red",
-    "compare": "blue"
+    "swap": "#ff0000",
+    "compare": "#0099cc"
 }
 
 
 class Board(Canvas):
 
     _interval: int
-    _event_queue: Queue
+    _recorder: Recorder
     _initial_array: List = None
     _ops: Dict[int, List[int]]
 
@@ -28,8 +28,8 @@ class Board(Canvas):
         self.after(self._interval, self._update)
         self.pack()
 
-    def set_queue(self, queue: Queue) -> None:
-        self._event_queue = queue
+    def set_recording(self, recorder: Recorder) -> None:
+        self._recorder = recorder
 
     def _draw_initial(self):
         self._draw_state(self._initial_array, 0)
@@ -48,15 +48,18 @@ class Board(Canvas):
         self.create_rectangle(start_x - 10, y - 20, start_x + 20 * len(array), y + 150)
         self.create_text(start_x - 5, y - 15, text="offset %d" % offset, anchor="nw")
 
+        if event_type == "swap":
+            self._ops[offset][0] += 1
+        if event_type == "compare":
+            self._ops[offset][1] += 1
+
         for index, el in enumerate(array):
             x = start_x + index * distance
             fill_color = COLORS["base"]
             if event_type == "swap" and (index == m or index == n):
                 fill_color = COLORS["swap"]
-                self._ops[offset][0] += 1
             if event_type == "compare" and (index == m or index == n):
                 fill_color = COLORS["compare"]
-                self._ops[offset][1] += 1
             self.create_rectangle(x, y + 140, x + width, y + 140 - (el * height_unit), fill=fill_color)
 
         if offset > 0:
@@ -64,11 +67,13 @@ class Board(Canvas):
             self.create_text((start_x + 20 * len(array)) - 15, y - 15, text="n. swap: %d" % self._ops[offset][0], anchor="ne")
 
     def _update(self) -> None:
-        if not self._event_queue.empty():
+        if not self._recorder.empty():
             self.delete("all")
-            (event_type, array, m, n) = self._event_queue.get()
+            event = self._recorder.get()
+            array = event["state"]
             if self._initial_array is None:
                 self._initial_array = array.copy()
             self._draw_initial()
-            self._draw_content(array, event_type, m, n)
-            self.after(self._interval, self._update)
+            self._draw_content(array, event["event"], event["m"], event["n"])
+            interval = self._interval
+            self.after(interval, self._update)

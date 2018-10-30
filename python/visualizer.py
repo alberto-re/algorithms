@@ -11,7 +11,8 @@ from algo.sorting.insertion_sort import sort as insertion_sort
 from algo.sorting.merge_sort import sort as merge_sort
 from algo.sorting.selection_sort import sort as selection_sort
 from visualize.Board import Board
-from visualize.observable.array import ObservableArray
+from visualize.observable.list import ObservableList
+from visualize.observable.recorder import Recorder
 
 ALGORITHMS = {
     "bubble_sort": bubble_sort,
@@ -43,23 +44,25 @@ def main() -> None:
 
     Tk()
 
-    event_queue = Queue()
+    events = Queue()
+    recorder = Recorder(events)
 
     array = [randint(MIN_VAL, MAX_VAL) for _ in range(int(options.length))]
     shuffle(array)
-    array = ObservableArray(array)
-    array.set_queue(event_queue)
+    array = ObservableList(array)
+    array.register(recorder)
+
+    ALGORITHMS[options.algorithm](array)
 
     canvas = Board(interval=int(options.interval))
-    canvas.set_queue(event_queue)
-
-    print(array)
-    ALGORITHMS[options.algorithm](array)
-    print(array)
+    canvas.set_recording(recorder)
 
     canvas.run()
 
     mainloop()
+
+    for event in recorder:
+        print(event)
 
 
 if __name__ == "__main__":
