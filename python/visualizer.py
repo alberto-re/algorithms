@@ -51,7 +51,6 @@ def main() -> None:
     array.set_queue(event_queue)
 
     canvas = Board(interval=int(options.interval))
-    canvas.set_array(array)
     canvas.set_queue(event_queue)
 
     print(array)

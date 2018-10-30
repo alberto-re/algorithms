@@ -13,8 +13,7 @@ class Board(Canvas):
 
     _interval: int
     _event_queue: Queue
-    _array: List
-    _initial_array: List
+    _initial_array: List = None
     _ops: Dict[int, List[int]]
 
     def __init__(self, width: int = 800, height: int = 600, interval: int = 100) -> None:
@@ -26,23 +25,17 @@ class Board(Canvas):
         }
 
     def run(self) -> None:
-        self._draw_initial()
-        self._draw_content()
         self.after(self._interval, self._update)
         self.pack()
 
     def set_queue(self, queue: Queue) -> None:
         self._event_queue = queue
 
-    def set_array(self, array: List) -> None:
-        self._array = array
-        self._initial_array = array.copy()
-
     def _draw_initial(self):
         self._draw_state(self._initial_array, 0)
 
-    def _draw_content(self, event_type=None, m=None, n=None) -> None:
-        self._draw_state(self._array, 1, event_type, m, n)
+    def _draw_content(self, array: List, event_type=None, m=None, n=None) -> None:
+        self._draw_state(array, 1, event_type, m, n)
 
     def _draw_state(self, array, offset=0, event_type=None, m=None, n=None):
 
@@ -74,11 +67,8 @@ class Board(Canvas):
         if not self._event_queue.empty():
             self.delete("all")
             (event_type, array, m, n) = self._event_queue.get()
-            self._array = array
+            if self._initial_array is None:
+                self._initial_array = array.copy()
             self._draw_initial()
-            self._draw_content(event_type, m, n)
+            self._draw_content(array, event_type, m, n)
             self.after(self._interval, self._update)
-        else:
-            self.delete("all")
-            self._draw_initial()
-            self._draw_content()
