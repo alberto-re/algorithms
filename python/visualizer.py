@@ -130,7 +130,9 @@ def main() -> None:
     canvas.set_array(array)
     canvas.set_queue(event_queue)
 
+    print(array)
     ALGORITHMS[options.algorithm](array)
+    print(array)
 
     canvas.run()
 

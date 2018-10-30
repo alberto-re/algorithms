@@ -1,36 +1,37 @@
 import sys
 
 
-def merge(left: list, right: list) -> list:
-    merged_items = []
-    left_idx, right_idx = 0, 0
-    while left_idx < len(left) or right_idx < len(right):
-        if left_idx == len(left):
-            merged_items.append(right[right_idx])
-            right_idx += 1
-        elif right_idx == len(right):
-            merged_items.append(left[left_idx])
-            left_idx += 1
-        elif left[left_idx] <= right[right_idx]:
-            merged_items.append(left[left_idx])
-            left_idx += 1
+def _merge(array: list, lo: int, mid: int, hi: int) -> None:
+    left = array[lo:mid+1]
+    right = array[mid+1:hi+1]
+    i, j = 0, 0
+    k = lo
+    for l in range(k, hi + 1):
+        if j >= len(right) or (i < len(left) and left[i] < right[j]):
+            array[l] = left[i]
+            i += 1
         else:
-            merged_items.append(right[right_idx])
-            right_idx += 1
-    return merged_items
+            array[l] = right[j]
+            j += 1
 
 
-def sort(items: list) -> list:
-    if len(items) <= 1:
-        return items
-    else:
-        center = len(items) - len(items) // 2
-        return merge(sort(items[:center]), sort(items[center:]))
+def _sort(array: list, lo: int, hi: int) -> None:
+    if hi <= lo:
+        return
+
+    mid = (hi + lo) // 2
+    _sort(array, lo, mid)
+    _sort(array, mid+1, hi)
+    _merge(array, lo, mid, hi)
+
+
+def sort(items: list) -> None:
+    _sort(items, 0, len(items) - 1)
 
 
 def main() -> None:
     items = [int(x) for x in sys.stdin.readline().split()]
-    items = sort(items)
+    sort(items)
     print(" ".join(map(str, items)))
 
 

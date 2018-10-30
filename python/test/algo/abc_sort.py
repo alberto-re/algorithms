@@ -18,12 +18,12 @@ class BaseSortTest(ABC):
 
     @given(st.lists(st.integers()))
     def test_correctness_against_python_impl(self, x: list) -> None:
-        custom = self._sort(x)
-        x.sort()
-        self.assertEqual(x, custom)  # type: ignore  # see class docstring
+        expected = sorted(x)
+        self._sort(x)
+        self.assertEqual(expected, x)  # type: ignore  # see class docstring
 
     def test_correctness_against_python_impl_large_list(self) -> None:
         x = [random.randint(0, 500) for _ in range(1000)]
-        custom = self._sort(x)
-        x.sort()
-        self.assertEqual(x, custom)  # type: ignore  # see class docstring
+        expected = sorted(x)
+        self._sort(x)
+        self.assertEqual(expected, x)  # type: ignore  # see class docstring

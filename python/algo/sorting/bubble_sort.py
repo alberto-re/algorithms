@@ -1,12 +1,11 @@
 import sys
 
 
-def sort(items: list) -> list:
+def sort(items: list) -> None:
     for m in range(0, len(items) - 1):
         for n in range(len(items) - 1, m, -1):
             if items[n] < items[n-1]:
                 items[n], items[n-1] = items[n-1], items[n]
-    return items
 
 
 def main() -> None:
