@@ -8,8 +8,8 @@ class Recorder(Observer):
     _last_get_index: int
     _last_set_index: int
 
-    def __init__(self, queue: Queue) -> None:
-        self._queue = queue
+    def __init__(self) -> None:
+        self._queue = Queue()
         self._last_get_index = None
         self._last_set_index = None
 

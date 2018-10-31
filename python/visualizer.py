@@ -42,27 +42,23 @@ def parse_options():
 def main() -> None:
     (options, args) = parse_options()
 
+    algoritms = options.algorithm.split(",")
+
     Tk()
-
-    events = Queue()
-    recorder = Recorder(events)
-
-    array = [randint(MIN_VAL, MAX_VAL) for _ in range(int(options.length))]
-    shuffle(array)
-    array = ObservableList(array)
-    array.register(recorder)
-
-    ALGORITHMS[options.algorithm](array)
-
     canvas = Board(interval=int(options.interval))
-    canvas.set_recording(recorder)
+
+    initial_array = [randint(MIN_VAL, MAX_VAL) for _ in range(int(options.length))]
+    shuffle(initial_array)
+
+    for algorithm in algoritms:
+        recorder = Recorder()
+        array = ObservableList(initial_array.copy())
+        array.register(recorder)
+        ALGORITHMS[algorithm](array)
+        canvas.add_recording(recorder)
 
     canvas.run()
-
     mainloop()
-
-    for event in recorder:
-        print(event)
 
 
 if __name__ == "__main__":
