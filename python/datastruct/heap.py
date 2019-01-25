@@ -4,7 +4,7 @@ from typing import Any, Callable, List
 class BinaryHeap:
     """Implementation of a binary heap in Python 3."""
 
-    def __init__(self, comparator: Callable=lambda x, y: x >= y) -> None:
+    def __init__(self, comparator: Callable = lambda x, y: x >= y) -> None:
         """
         By default the binary heap behaves as a MaxHeap.
 
