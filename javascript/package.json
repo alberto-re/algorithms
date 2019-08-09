@@ -1,0 +1,7 @@
+{
+  "name": "algorithms",
+  "version": "1.0.0",
+  "description": "Algorithms and data structures in JavaScript",
+  "author": "Alberto Re <alberto.re@gmail.com>",
+  "license": "MIT"
+}
