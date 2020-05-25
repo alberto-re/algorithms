@@ -3,5 +3,24 @@
   "version": "1.0.0",
   "description": "Algorithms and data structures in JavaScript",
   "author": "Alberto Re <alberto.re@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alberto-re/algorithms"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint algo datastruct test",
+    "test": "./node_modules/mocha/bin/mocha --exit --bail test/"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^7.0.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "mocha": "^7.1.2"
+  }
 }
