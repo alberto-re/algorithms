@@ -25,13 +25,13 @@ def _sort(array: list, lo: int, hi: int) -> None:
     _merge(array, lo, mid, hi)
 
 
-def sort(items: list) -> None:
+def merge_sort(items: list) -> None:
     _sort(items, 0, len(items) - 1)
 
 
 def main() -> None:
     items = [int(x) for x in sys.stdin.readline().split()]
-    sort(items)
+    merge_sort(items)
     print(" ".join(map(str, items)))
 
 

@@ -1,16 +1,19 @@
 import sys
 
 
-def sort(items: list) -> None:
-    for m in range(0, len(items) - 1):
-        for n in range(len(items) - 1, m, -1):
-            if items[n] < items[n-1]:
-                items[n], items[n-1] = items[n-1], items[n]
-
+def bubble_sort(items: list) -> None:
+    while True:
+        swapped = False
+        for n in range(0, len(items) - 1):
+            if items[n] > items[n + 1]:
+                items[n], items[n + 1] = items[n + 1], items[n]
+                swapped = True
+        if not swapped:
+            break
 
 def main() -> None:
     items = [int(x) for x in sys.stdin.readline().split()]
-    sort(items)
+    bubble_sort(items)
     print(" ".join(map(str, items)))
 
 

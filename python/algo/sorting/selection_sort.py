@@ -1,7 +1,7 @@
 import sys
 
 
-def sort(items: list) -> None:
+def selection_sort(items: list) -> None:
     for i in range(0, len(items)):
         min_index = i
         for j in range(i, len(items)):
@@ -12,7 +12,7 @@ def sort(items: list) -> None:
 
 def main() -> None:
     items = [int(x) for x in sys.stdin.readline().split()]
-    sort(items)
+    selection_sort(items)
     print(" ".join(map(str, items)))
 
 
