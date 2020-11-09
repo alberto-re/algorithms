@@ -7,7 +7,7 @@ from test.algo.abc_sort import BaseSortTest
 class MergeSortTest(BaseSortTest, unittest.TestCase):
 
     def _sort(self, collection):
-        return merge_sort(collection)
+        merge_sort(collection)
 
 
 if __name__ == '__main__':

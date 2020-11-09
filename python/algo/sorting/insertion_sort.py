@@ -4,8 +4,9 @@ import sys
 def insertion_sort(items: list) -> None:
     for i in range(1, len(items)):
         j = i
-        while j > 0 and items[j - 1] > items[j]:
+        while j > 0 and items[j] < items[j - 1]:
             items[j], items[j - 1] = items[j - 1], items[j]
+            j = j - 1
 
 
 def main() -> None:
